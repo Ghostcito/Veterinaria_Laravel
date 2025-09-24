@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TratamientoController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/tratamiento', action: [TratamientoController::class, 'index']);
+Route::resource('/home', controller: HomeController::class);

@@ -6,14 +6,15 @@ use App\Models\Paciente;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PacienteController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
+        $pacientes = Paciente::all();
+        return view('home', compact('pacientes'));
     }
 
     /**
