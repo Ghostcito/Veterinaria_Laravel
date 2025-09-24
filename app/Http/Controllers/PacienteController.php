@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Paciente;
 use App\Http\Controllers\Controller;
+use Date;
 use Illuminate\Http\Request;
 
 class PacienteController extends Controller
@@ -13,7 +14,7 @@ class PacienteController extends Controller
      */
     public function index()
     {
-
+        //
     }
 
     /**
@@ -29,7 +30,15 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pacientes = new Paciente();
+        $pacientes->nombre = $request->input('nombre');
+        $pacientes->especie = $request->input('especie');
+        $pacientes->raza = $request->input('raza');
+        $pacientes->edad = $request->input('edad');
+        $pacientes->nombre_duenio = $request->input('nombre_duenio');
+        $pacientes->telefono_duenio = $request->input('telefono_duenio');
+        $pacientes->save();
+        return redirect()->back();
     }
 
     /**
@@ -37,7 +46,7 @@ class PacienteController extends Controller
      */
     public function show(Paciente $paciente)
     {
-
+        //
     }
 
     /**

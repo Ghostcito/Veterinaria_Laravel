@@ -454,7 +454,7 @@ body {
 @media (prefers-color-scheme: dark) {
     body {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d3748 100%);
-        color: #e2e8f0;
+        color: #000000;
     }
 
     .card {

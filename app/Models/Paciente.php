@@ -24,3 +24,6 @@ class Paciente extends Model
         return $this->hasMany(Tratamiento::class, 'id_paciente');
     }
 }
+
+
+

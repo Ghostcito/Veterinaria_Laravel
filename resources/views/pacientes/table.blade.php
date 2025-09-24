@@ -1,5 +1,5 @@
 @extends('home')
-@section('table-content')
+@section('table')
 
     <div class="card-header bg-gradient-primary text-white">
         <h5 class="mb-0"><i class="fas fa-list me-2"></i>Lista de Pacientes</h5>
@@ -19,7 +19,46 @@
                     </tr>
                 </thead>
                 <tbody id="tablaPacientes">
-                    <!-- Los datos se cargarán con JavaScript -->
+                    @foreach ($pacientes as $paciente)
+                        <td><span class="badge bg-primary">{{ $paciente->id }}</span></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-2">
+                                    <i class="fas fa-paw text-primary"></i>
+                                </div>
+                                <div>
+                                    <strong>{{ $paciente->nombre }}</strong>
+                                    <br><small class="text-muted">{{ $paciente->edad }} años</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-info">{{ $paciente->especie }}</span>
+                        </td>
+                        <td>{{ $paciente->raza }}</td>
+                        <td>
+                            <div>
+                                <strong>{{ $paciente->nombre_duenio }}</strong>
+                                <br><small class="text-muted">{{ $paciente->telefono_duenio }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <i class="fas fa-phone me-1"></i>{{ $paciente->fecha_registro }}
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-info btn-sm" title="Ver tratamientos">
+                                    <i class="fas fa-stethoscope"></i>
+                                </button>
+                                <button class="btn btn-warning btn-sm" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    @endforeach
                 </tbody>
             </table>
         </div>
