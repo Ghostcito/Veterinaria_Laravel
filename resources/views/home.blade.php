@@ -25,7 +25,7 @@
                         <a class="nav-link active" href="index.html"><i class="fas fa-dog me-1"></i>Pacientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="tratamientos-generales.html"><i
+                        <a class="nav-link" href={{url('tratamiento') }}><i
                                 class="fas fa-prescription-bottle-medical me-1"></i>Tratamientos</a>
                     </li>
                 </ul>
