@@ -105,30 +105,30 @@
                         </thead>
                         <tbody id="tablaPacientes">
                             @foreach ($pacientes as $paciente)
-                                <td><span class="badge bg-primary">${paciente.id}</span></td>
+                                <td><span class="badge bg-primary">{{ $paciente->id }}</span></td>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-sm me-2">
                                             <i class="fas fa-paw text-primary"></i>
                                         </div>
                                         <div>
-                                            <strong>${paciente.nombre}</strong>
-                                            <br><small class="text-muted">${paciente.edad} años</small>
+                                            <strong>{{ $paciente->nombre }}</strong>
+                                            <br><small class="text-muted">{{ $paciente->edad }} años</small>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-info">${paciente.especie}</span>
+                                    <span class="badge bg-info">{{ $paciente->especie }}</span>
                                 </td>
-                                <td>${paciente.raza}</td>
+                                <td>{{ $paciente->raza }}</td>
                                 <td>
                                     <div>
-                                        <strong>${paciente.dueno}</strong>
-                                        <br><small class="text-muted">${paciente.email}</small>
+                                        <strong>{{ $paciente->nombre_duenio }}</strong>
+                                        <br><small class="text-muted">{{ $paciente->telefono_duenio }}</small>
                                     </div>
                                 </td>
                                 <td>
-                                    <i class="fas fa-phone me-1"></i>${paciente.telefono}
+                                    <i class="fas fa-phone me-1"></i>{{ $paciente->fecha_registro }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
