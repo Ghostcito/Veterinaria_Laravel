@@ -84,7 +84,7 @@
                             @foreach ($pacientes as $paciente)
                                 <tr>
                                     <td>
-                                        <span class="badge bg-primary">#{{ $paciente->id_paciente }}</span>
+                                        <span class="badge bg-primary">{{ $paciente->id_paciente }}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -118,31 +118,162 @@
                                                 <i class="fas fa-stethoscope"></i>
                                             </a>
                                             <!-- Editar -->
-                                            <button class="btn btn-warning btn-sm" title="Editar" type="button"
-                                                data-bs-toggle="modal" data-bs-target="#edit{{ $paciente->id }}">
+                                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editModal" onclick="editarPaciente(
+                                                                '{{ $paciente->id_paciente }}',
+                                                                '{{ $paciente->nombre }}',
+                                                                '{{ $paciente->edad }}',
+                                                                '{{ $paciente->especie }}',
+                                                                '{{ $paciente->raza }}',
+                                                                '{{ $paciente->nombre_duenio }}',
+                                                                '{{ $paciente->telefono_duenio }}'
+                                                            )">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+
+
                                             <button type="button" class="btn btn-danger btn-sm" title="Eliminar"
-                                                data-bs-toggle="modal" data-bs-target="#delete{{ $paciente->id }}">
+                                                onclick="confirmarEliminacion('{{ $paciente->id_paciente }}', '{{ $paciente->nombre }}')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
+
                         </tbody>
                     </table>
+                    {{-- Al final del foreach, ya fuera de la tabla --}}
+
+
                 </div>
             </div>
         </div>
 
-
     </div>
+
+    <!--MODAL EDIT-->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formEdit" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Paciente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                     <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre del paciente</label>
+                            <input type="text" name="nombre" class="form-control" value="{{ $paciente->nombre ?? '' }}"
+                                required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Edad (años)</label>
+                            <input type="number" name="edad" class="form-control" value="{{ $paciente->edad ?? '' }}"
+                                min="0" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Especie</label>
+                            <select name="especie" class="form-select" required>
+                                <option value="Perro" {{ ($paciente->especie ?? '') == 'Perro' ? 'selected' : '' }}>Perro
+                                </option>
+                                <option value="Gato" {{ ($paciente->especie ?? '') == 'Gato' ? 'selected' : '' }}>Gato
+                                </option>
+                                <option value="Ave" {{ ($paciente->especie ?? '') == 'Ave' ? 'selected' : '' }}>Ave
+                                </option>
+                                <option value="Conejo" {{ ($paciente->especie ?? '') == 'Conejo' ? 'selected' : '' }}>
+                                    Conejo</option>
+                                <option value="Otro" {{ ($paciente->especie ?? '') == 'Otro' ? 'selected' : '' }}>Otro
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Raza</label>
+                            <input type="text" name="raza" class="form-control" value="{{ $paciente->raza ?? '' }}">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre del dueño</label>
+                            <input type="text" name="nombre_duenio" class="form-control"
+                                value="{{ $paciente->nombre_duenio ?? '' }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="tel" name="telefono_duenio" class="form-control"
+                                value="{{ $paciente->telefono_duenio ?? '' }}">
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../js/pacientes.js"></script>
+    <script>
+        function confirmarEliminacion(id, nombre) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Se eliminará al paciente: " + nombre,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear y enviar el formulario de eliminación
+                    let form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/pacientes/' + id;
+
+                    let token = document.createElement('input');
+                    token.type = 'hidden';
+                    token.name = '_token';
+                    token.value = '{{ csrf_token() }}';
+
+                    let method = document.createElement('input');
+                    method.type = 'hidden';
+                    method.name = '_method';
+                    method.value = 'DELETE';
+
+                    form.appendChild(token);
+                    form.appendChild(method);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+        function editarPaciente(id, nombre, edad, especie, raza, duenio, telefono) {
+            document.getElementById("edit_id").value = id;
+            document.getElementById("edit_nombre").value = nombre;
+            document.getElementById("edit_edad").value = edad;
+            document.getElementById("edit_especie").value = especie;
+            document.getElementById("edit_raza").value = raza;
+            document.getElementById("edit_duenio").value = duenio;
+            document.getElementById("edit_telefono").value = telefono;
+
+            // actualizar la ruta del formulario (ej: /pacientes/5)
+            document.getElementById("formEdit").action = "{{ route('pacientes.update', ':id') }}".replace(':id', id);
+        }
+    </script>
 </body>
 
 </html>

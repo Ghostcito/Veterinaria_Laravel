@@ -54,22 +54,42 @@ class PacienteController extends Controller
      */
     public function edit(Paciente $paciente)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Paciente $paciente)
+    public function update(Request $request, $id)
     {
-        //
+        // Validar datos
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'especie' => 'required|string|max:50',
+            'raza' => 'nullable|string|max:50',
+            'edad' => 'nullable|integer|min:0',
+            'nombre_duenio' => 'required|string|max:100',
+            'telefono_duenio' => 'nullable|string|max:20',
+        ]);
+
+        // Buscar paciente
+        $paciente = Paciente::findOrFail($id);
+
+        // Actualizar con los datos enviados
+        $paciente->update($request->all());
+
+        // Redirigir con mensaje
+        return redirect()->back()->with('success', 'Paciente actualizado correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Paciente $paciente)
+    public function destroy($id)
     {
-        //
+        $paciente = Paciente::findOrFail($id);
+        $paciente->delete();
+
+        return redirect()->back()->with('success', 'Paciente eliminado correctamente.');
     }
 }

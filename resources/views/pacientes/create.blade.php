@@ -18,7 +18,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Nombre del paciente</label>
-                            <input type="text" class="form-control" id="nombre" required>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
                         </div>
 
                         <div class="col-md-6 mb-3">
