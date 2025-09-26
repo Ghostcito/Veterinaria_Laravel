@@ -120,14 +120,14 @@
                                             <!-- Editar -->
                                             <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#editModal" onclick="editarPaciente(
-                                                                '{{ $paciente->id_paciente }}',
-                                                                '{{ $paciente->nombre }}',
-                                                                '{{ $paciente->edad }}',
-                                                                '{{ $paciente->especie }}',
-                                                                '{{ $paciente->raza }}',
-                                                                '{{ $paciente->nombre_duenio }}',
-                                                                '{{ $paciente->telefono_duenio }}'
-                                                            )">
+                                                                        '{{ $paciente->id_paciente }}',
+                                                                        '{{ $paciente->nombre }}',
+                                                                        '{{ $paciente->edad }}',
+                                                                        '{{ $paciente->especie }}',
+                                                                        '{{ $paciente->raza }}',
+                                                                        '{{ $paciente->nombre_duenio }}',
+                                                                        '{{ $paciente->telefono_duenio }}'
+                                                                    )">
                                                 <i class="fas fa-edit"></i>
                                             </button>
 
@@ -163,56 +163,39 @@
                         <h5 class="modal-title">Editar Paciente</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                     <div class="modal-body">
-                    <div class="row g-3">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_id" name="id_paciente">
 
-                        <div class="col-md-6">
-                            <label class="form-label">Nombre del paciente</label>
-                            <input type="text" name="nombre" class="form-control" value="{{ $paciente->nombre ?? '' }}"
-                                required>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" id="edit_nombre" name="nombre" class="form-control">
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label">Edad (años)</label>
-                            <input type="number" name="edad" class="form-control" value="{{ $paciente->edad ?? '' }}"
-                                min="0" required>
+                        <div class="mb-3">
+                            <label class="form-label">Edad</label>
+                            <input type="number" id="edit_edad" name="edad" class="form-control">
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="mb-3">
                             <label class="form-label">Especie</label>
-                            <select name="especie" class="form-select" required>
-                                <option value="Perro" {{ ($paciente->especie ?? '') == 'Perro' ? 'selected' : '' }}>Perro
-                                </option>
-                                <option value="Gato" {{ ($paciente->especie ?? '') == 'Gato' ? 'selected' : '' }}>Gato
-                                </option>
-                                <option value="Ave" {{ ($paciente->especie ?? '') == 'Ave' ? 'selected' : '' }}>Ave
-                                </option>
-                                <option value="Conejo" {{ ($paciente->especie ?? '') == 'Conejo' ? 'selected' : '' }}>
-                                    Conejo</option>
-                                <option value="Otro" {{ ($paciente->especie ?? '') == 'Otro' ? 'selected' : '' }}>Otro
-                                </option>
-                            </select>
+                            <input type="text" id="edit_especie" name="especie" class="form-control">
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="mb-3">
                             <label class="form-label">Raza</label>
-                            <input type="text" name="raza" class="form-control" value="{{ $paciente->raza ?? '' }}">
+                            <input type="text" id="edit_raza" name="raza" class="form-control">
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label">Nombre del dueño</label>
-                            <input type="text" name="nombre_duenio" class="form-control"
-                                value="{{ $paciente->nombre_duenio ?? '' }}" required>
+                        <div class="mb-3">
+                            <label class="form-label">Dueño</label>
+                            <input type="text" id="edit_duenio" name="nombre_duenio" class="form-control">
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="mb-3">
                             <label class="form-label">Teléfono</label>
-                            <input type="tel" name="telefono_duenio" class="form-control"
-                                value="{{ $paciente->telefono_duenio ?? '' }}">
+                            <input type="text" id="edit_telefono" name="telefono_duenio" class="form-control">
                         </div>
                     </div>
-                </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-success">Guardar cambios</button>

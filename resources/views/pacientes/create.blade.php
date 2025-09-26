@@ -47,7 +47,7 @@
 
                         <div class="col-md-6 mb-3">
                             <label for="telefono_duenio" class="form-label">Teléfono del Dueño</label>
-                            <input type="text" class="form-control" id="telefono_duenio" name="telefono_duenio">
+                            <input type="number" class="form-control" id="telefono_duenio" name="telefono_duenio">
                         </div>
                     </div>
                     <div class="modal-footer">

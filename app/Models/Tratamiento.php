@@ -15,6 +15,10 @@ class Tratamiento extends Model
         'costo'
     ];
 
+    protected $casts = [
+        'fecha' => 'date',
+    ];
+
     public $timestamps = true;
 
     public function paciente()
