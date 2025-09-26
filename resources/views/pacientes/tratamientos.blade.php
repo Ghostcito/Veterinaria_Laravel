@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tratamientos de ' . $paciente->nombre . ' - VetCare')
+@section('title', 'Tratamientos de ' . $paciente->nombre . ' - Q Patas')
 
 @section('content')
 <!-- Hero Section -->
@@ -96,7 +96,7 @@
                                     <td>
                                         @if($tratamiento->costo)
                                             <span class="badge bg-success">
-                                                ${{ number_format($tratamiento->costo, 2) }}
+                                                S/.{{ number_format($tratamiento->costo, 2) }}
                                             </span>
                                         @else
                                             <span class="text-muted">No especificado</span>
@@ -104,11 +104,11 @@
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <button class="btn btn-sm btn-outline-warning edit-tratamiento" 
+                                            <button class="btn btn-warning btn-sm edit-tratamiento" 
                                                     data-id="{{ $tratamiento->id_tratamiento }}" title="Editar">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger delete-tratamiento" 
+                                            <button class="btn btn-danger btn-sm delete-tratamiento" 
                                                     data-id="{{ $tratamiento->id_tratamiento }}" 
                                                     data-fecha="{{ $tratamiento->fecha->format('d/m/Y') }}" title="Eliminar">
                                                 <i class="bi bi-trash"></i>
@@ -121,10 +121,7 @@
                     </table>
                 </div>
                 
-                <!-- Pagination -->
-                <div class="card-footer bg-white">
-                    {{ $tratamientos->links() }}
-                </div>
+               
             @else
                 <div class="text-center py-5">
                     <i class="bi bi-clipboard-x display-1 text-muted"></i>
@@ -175,7 +172,7 @@
                         <div class="col-md-6">
                             <label class="form-label">Costo</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">S/.</span>
                                 <input type="number" class="form-control" name="costo" id="costo" 
                                        step="0.01" min="0">
                             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Todos los Tratamientos - VetCare')
+@section('title', 'Todos los Tratamientos - Q Patas')
 
 @section('content')
 <!-- Hero Section -->
@@ -22,43 +22,7 @@
     </div>
 </div>
 
-<!-- Search Section -->
-<div class="search-section">
-    <div class="container">
-        <form method="GET" action="{{ route('tratamientos.todos') }}" class="row g-3">
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-text bg-white">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input type="text" class="form-control" name="search" 
-                           placeholder="Buscar tratamiento..." value="{{ request('search') }}">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" name="fecha_desde" 
-                       placeholder="Fecha desde" value="{{ request('fecha_desde') }}">
-            </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" name="fecha_hasta" 
-                       placeholder="Fecha hasta" value="{{ request('fecha_hasta') }}">
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-vet-primary w-100">
-                    <i class="bi bi-funnel me-1"></i>Filtrar
-                </button>
-            </div>
-        </form>
-        
-        @if(request()->hasAny(['search', 'fecha_desde', 'fecha_hasta']))
-            <div class="mt-3">
-                <a href="{{ route('tratamientos.todos') }}" class="btn btn-outline-light btn-sm">
-                    <i class="bi bi-arrow-clockwise me-1"></i>Limpiar filtros
-                </a>
-            </div>
-        @endif
-    </div>
-</div>
+
 
 <!-- Treatments List -->
 <div class="container my-5">
@@ -76,7 +40,7 @@
                         <div class="text-muted small">
                             Total facturado: 
                             <strong class="text-success">
-                                ${{ number_format($tratamientos->sum('costo'), 2) }}
+                                S/.{{ number_format($tratamientos->sum('costo'), 2) }}
                             </strong>
                         </div>
                     @endif
@@ -144,7 +108,7 @@
                                     <td>
                                         @if($tratamiento->costo)
                                             <span class="badge bg-success">
-                                                ${{ number_format($tratamiento->costo, 2) }}
+                                                S/. {{ number_format($tratamiento->costo, 2) }}
                                             </span>
                                         @else
                                             <span class="text-muted">No especificado</span>
@@ -153,14 +117,14 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a href="{{ route('pacientes.tratamientos', $tratamiento->paciente) }}" 
-                                               class="btn btn-sm btn-outline-info" title="Ver paciente">
+                                               class="btn btn-info btn-sm" title="Ver paciente">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <button class="btn btn-sm btn-outline-warning edit-tratamiento" 
+                                            <button class="btn btn-warning btn-sm edit-tratamiento" 
                                                     data-id="{{ $tratamiento->id_tratamiento }}" title="Editar">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger delete-tratamiento" 
+                                            <button class="btn btn-danger btn-sm delete-tratamiento" 
                                                     data-id="{{ $tratamiento->id_tratamiento }}" 
                                                     data-paciente="{{ $tratamiento->paciente->nombre }}"
                                                     data-fecha="{{ $tratamiento->fecha->format('d/m/Y') }}" title="Eliminar">
@@ -174,10 +138,7 @@
                     </table>
                 </div>
                 
-                <!-- Pagination -->
-                <div class="card-footer bg-white">
-                    {{ $tratamientos->links() }}
-                </div>
+                
             @else
                 <div class="text-center py-5">
                     <i class="bi bi-clipboard-x display-1 text-muted"></i>
@@ -233,7 +194,7 @@
                         <div class="col-md-6">
                             <label class="form-label">Costo</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">S/.</span>
                                 <input type="number" class="form-control" name="costo" id="costo" 
                                        step="0.01" min="0">
                             </div>

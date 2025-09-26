@@ -9,25 +9,11 @@ class PacienteController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Paciente::query();
+        $pacientes = Paciente::all();
 
-        // Filtro por búsqueda
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('nombre', 'like', "%{$search}%")
-                    ->orWhere('nombre_duenio', 'like', "%{$search}%")
-                    ->orWhere('especie', 'like', "%{$search}%")
-                    ->orWhere('raza', 'like', "%{$search}%");
-            });
-        }
 
-        // Filtro por especie
-        if ($request->filled('especie') && $request->especie !== 'todas') {
-            $query->where('especie', $request->especie);
-        }
 
-        $pacientes = $query->orderBy('fecha_registro', 'desc')->paginate(10);
+        // $query = $query->orderBy('fecha_registro', 'desc')->paginate(10);
         $especies = Paciente::distinct()->pluck('especie');
 
         return view('pacientes.index', compact('pacientes', 'especies'));

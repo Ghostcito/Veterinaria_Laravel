@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Gestión de Pacientes - VetCare')
+@section('title', 'Gestión de Pacientes - Q Patas')
 
 @section('content')
 <!-- Hero Section -->
@@ -9,7 +9,7 @@
         <div class="row align-items-center">
             <div class="col-lg-8">
                 <h1 class="display-5 fw-bold mb-3">
-                    <i class="bi bi-heart-pulse paw-icon me-3"></i>Gestión de Pacientes
+                    <i class="fas fa-paw text-warning me-3"></i>Gestión de Pacientes
                 </h1>
                 <p class="lead mb-0">Administra la información de tus pacientes de forma eficiente y profesional</p>
             </div>
@@ -22,45 +22,7 @@
     </div>
 </div>
 
-<!-- Search Section -->
-<div class="search-section">
-    <div class="container">
-        <form method="GET" action="{{ route('pacientes.index') }}" class="row g-3">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <span class="input-group-text bg-white">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input type="text" class="form-control" name="search" 
-                           placeholder="Buscar paciente..." value="{{ request('search') }}">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" name="especie">
-                    <option value="todas">Todas las especies</option>
-                    @foreach($especies as $especie)
-                        <option value="{{ $especie }}" {{ request('especie') == $especie ? 'selected' : '' }}>
-                            {{ ucfirst($especie) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-vet-primary w-100">
-                    <i class="bi bi-funnel me-1"></i>Filtrar
-                </button>
-            </div>
-        </form>
-        
-        @if(request()->hasAny(['search', 'especie']))
-            <div class="mt-3">
-                <a href="{{ route('pacientes.index') }}" class="btn btn-outline-light btn-sm">
-                    <i class="bi bi-arrow-clockwise me-1"></i>Limpiar filtros
-                </a>
-            </div>
-        @endif
-    </div>
-</div>
+
 
 <!-- Patients List -->
 <div class="container my-5">
@@ -68,7 +30,7 @@
         <div class="card-header bg-white py-3">
             <h5 class="mb-0">
                 <i class="bi bi-list-ul me-2"></i>Lista de Pacientes
-                <span class="badge bg-secondary ms-2">{{ $pacientes->total() }}</span>
+                <span class="badge bg-secondary ms-2">{{ $pacientes->count() }}</span>
             </h5>
         </div>
         <div class="card-body p-0">
@@ -94,7 +56,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <i class="bi bi-heart-pulse text-success me-2"></i>
+                                             <i class="fas fa-paw text-success me-2"></i>
                                             <div>
                                                 <strong>{{ $paciente->nombre }}</strong>
                                                 @if($paciente->edad)
@@ -124,9 +86,7 @@
                                     </td>
                                     <td>
                                         @if($paciente->telefono_duenio)
-                                            <a href="tel:{{ $paciente->telefono_duenio }}" class="text-decoration-none">
-                                                <i class="bi bi-telephone me-1"></i>{{ $paciente->telefono_duenio }}
-                                            </a>
+                                            <i class="bi bi-telephone me-1"></i>{{ $paciente->telefono_duenio }}
                                         @else
                                             <span class="text-muted">No disponible</span>
                                         @endif
@@ -134,14 +94,14 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a href="{{ route('pacientes.tratamientos', $paciente) }}" 
-                                               class="btn btn-sm btn-outline-info" title="Ver tratamientos">
+                                               class="btn btn-info btn-sm" title="Ver tratamientos">
                                                 <i class="bi bi-clipboard-pulse"></i>
                                             </a>
-                                            <button class="btn btn-sm btn-outline-warning edit-paciente" 
+                                            <button class="btn btn-warning btn-sm edit-paciente" 
                                                     data-id="{{ $paciente->id_paciente }}" title="Editar">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger delete-paciente" 
+                                            <button class="btn btn-danger btn-sm delete-paciente" 
                                                     data-id="{{ $paciente->id_paciente }}" 
                                                     data-name="{{ $paciente->nombre }}" title="Eliminar">
                                                 <i class="bi bi-trash"></i>
@@ -155,9 +115,7 @@
                 </div>
                 
                 <!-- Pagination -->
-                <div class="card-footer bg-white">
-                    {{ $pacientes->links() }}
-                </div>
+                
             @else
                 <div class="text-center py-5">
                     <i class="bi bi-inbox display-1 text-muted"></i>
@@ -322,9 +280,20 @@ $(document).ready(function() {
     $('.delete-paciente').click(function() {
         const id = $(this).data('id');
         const name = $(this).data('name');
-        
-        if (confirm(`¿Estás seguro de que deseas eliminar al paciente "${name}"?\n\nEsta acción también eliminará todos sus tratamientos asociados.`)) {
-            $.ajax({
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Se eliminará el paciente ${name} y todos sus tratamientos`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+               $.ajax({
                 url: `/pacientes/${id}`,
                 method: 'DELETE',
                 success: function(response) {
@@ -337,7 +306,10 @@ $(document).ready(function() {
                     showAlert('danger', 'Error al eliminar el paciente');
                 }
             });
-        }
+            }
+        });
+        
+       
     });
 
     // Función para mostrar alertas
